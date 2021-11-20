@@ -1,13 +1,18 @@
 import { Card, Grid, Typography, Checkbox, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   ckeckBox: {
     visibility: "hidden",
   },
+  checked: {
+    visibility: "visible",
+  },
   delete: {
     visibility: "hidden",
+    cursor: "pointer",
   },
   card: {
     "&:hover span": {
@@ -25,8 +30,16 @@ export const CountryItem = ({
   setSelectedCountries,
 }) => {
   const onSelectCountry = () => {
-    setSelectedCountries([...selectedCountries, country]);
+    if (!selectedCountries.includes(country)) {
+      setSelectedCountries([...selectedCountries, country]);
+    }
   };
+  const onDeleteCountry = (name) => {
+    setSelectedCountries([
+      ...selectedCountries.filter((c) => c.name.common !== name),
+    ]);
+  };
+
   const classes = useStyles();
   return (
     <Grid item>
@@ -47,10 +60,16 @@ export const CountryItem = ({
           }}
         >
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography variant="h5" component="div">
-              {country.name.common}
-            </Typography>
-            <Box>
+            <Link
+              to={`/${country.name.common}`}
+              style={{ textDecoration: "none", color: "MenuText" }}
+            >
+              <Typography variant="h5" component="span">
+                {country.name.common}
+              </Typography>
+            </Link>
+
+            <Box onClick={() => onDeleteCountry(country.name.common)}>
               <HighlightOffIcon className={classes.delete} />
             </Box>
           </Box>
