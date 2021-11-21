@@ -18,46 +18,26 @@ export const CountriesList = ({ inputValue }) => {
   const filteredCountriesList = countriesList.filter((country) => {
     return country.name.common.toLowerCase().includes(inputValue.toLowerCase());
   });
-  const selectedCountry = selectedCountries.find((c) => c.name.common);
-  console.log(selectedCountry);
-  if (selectedCountries.length) {
-    return (
-      <Grid container spacing={2} sx={{ m: 3 }}>
-        {selectedCountries.map((country) => (
-          <CountryItem
-            country={country}
-            key={country.name.common}
-            selectedCountries={selectedCountries}
-            setSelectedCountries={setSelectedCountries}
-          />
-        ))}
-        {filteredCountriesList
-          .filter((country) => country.name.common !== selectedCountry)
-          .map((country) => (
-            <CountryItem
-              country={country}
-              key={country.name.common}
-              selectedCountries={selectedCountries}
-              setSelectedCountries={setSelectedCountries}
-            />
-          ))}
-      </Grid>
-    );
-  }
+
+  const joinWithoutDupes = (A, B) => {
+    const a = new Set(A.map((x) => x.cca2));
+    return [...A, ...B.filter((x) => !a.has(x.cca2))];
+  };
+  const selectedAndFiltered =
+    inputValue === ""
+      ? selectedCountries
+      : joinWithoutDupes(selectedCountries, filteredCountriesList);
+
   return (
-    inputValue && (
-      <Grid container spacing={2} sx={{ m: 3 }}>
-        {filteredCountriesList
-          .filter((country) => country.name.common !== selectedCountry)
-          .map((country) => (
-            <CountryItem
-              country={country}
-              key={country.name.common}
-              selectedCountries={selectedCountries}
-              setSelectedCountries={setSelectedCountries}
-            />
-          ))}
-      </Grid>
-    )
+    <Grid container spacing={2} sx={{ m: 3 }}>
+      {selectedAndFiltered.map((country) => (
+        <CountryItem
+          country={country}
+          key={country.cca2}
+          selectedCountries={selectedCountries}
+          setSelectedCountries={setSelectedCountries}
+        />
+      ))}
+    </Grid>
   );
 };

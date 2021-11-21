@@ -34,6 +34,7 @@ export const CountryItem = ({
       setSelectedCountries([...selectedCountries, country]);
     }
   };
+
   const onDeleteCountry = (name) => {
     setSelectedCountries([
       ...selectedCountries.filter((c) => c.name.common !== name),
@@ -47,10 +48,10 @@ export const CountryItem = ({
         className={classes.card}
         sx={{
           width: 300,
-          minHeight: 120,
-          maxHeight: 180,
+          height: 150,
           p: 2,
-          bgcolor: "rgba(25, 117, 210, 0.1)",
+          backgroundImage: `url(${country.flags.png})`,
+          opacity: 0.9,
         }}
       >
         <Box
@@ -59,12 +60,21 @@ export const CountryItem = ({
             flexDirection: "column",
           }}
         >
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
             <Link
               to={`/${country.name.common}`}
               style={{ textDecoration: "none", color: "MenuText" }}
             >
-              <Typography variant="h5" component="span">
+              <Typography
+                variant="h5"
+                component="span"
+                sx={{ color: "darkgrey" }}
+              >
                 {country.name.common}
               </Typography>
             </Link>
@@ -74,7 +84,7 @@ export const CountryItem = ({
             </Box>
           </Box>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            {country.altSpellings[0]}
+            {country.cca2}
           </Typography>
           <Box sx={{ display: "flex", alignSelf: "flex-start" }}>
             <Checkbox className={classes.ckeckBox} onChange={onSelectCountry} />

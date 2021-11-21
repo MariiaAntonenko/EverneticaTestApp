@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   isLoading: false,
-  countries: [],
+  country: {},
   error: null,
 };
 
@@ -16,12 +16,13 @@ export const country = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
+        country: {},
       };
     case GET_COUNTRY_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        countries: action.payload.data,
+        country: action.payload.map((c) => c)[0],
       };
     case GET_COUNTRY_FAILURE:
       return {
