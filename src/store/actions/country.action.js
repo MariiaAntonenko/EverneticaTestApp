@@ -3,6 +3,7 @@ import {
   GET_COUNTRY_START,
   GET_COUNTRY_SUCCESS,
   GET_COUNTRY_FAILURE,
+  DEFINE_SELECTED_COUNTRY,
 } from "../types";
 
 export const getCountry = (name) => {
@@ -38,5 +39,11 @@ export const getCountryFailure = (error) => {
     payload: {
       error,
     },
+  };
+};
+export const defineSelectedCountry = (selectedCountries) => {
+  return {
+    type: DEFINE_SELECTED_COUNTRY,
+    payload: selectedCountries,
   };
 };
