@@ -1,19 +1,11 @@
 import { useState, useEffect } from "react";
-import {
-  useNavigate,
-  Link,
-  useLocation,
-  generatePath,
-  createSearchParams,
-} from "react-router-dom";
+import { useNavigate, useLocation, createSearchParams } from "react-router-dom";
 import { Container, TextField } from "@mui/material";
 import { CountriesList } from "./CountriesList";
 
 export const HomePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  // console.log(location);
-
   const [inputValue, setinputValue] = useState("");
   const onChangeSearchField = (e) => {
     setinputValue(e.target.value);
@@ -25,7 +17,7 @@ export const HomePage = () => {
       })}`,
     });
     setinputValue(inputValue);
-  }, [inputValue]);
+  }, [inputValue]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const up = new URLSearchParams(location.search.substr(1));
@@ -34,7 +26,7 @@ export const HomePage = () => {
     if (filtersFromParams) {
       setinputValue(filtersFromParams);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>

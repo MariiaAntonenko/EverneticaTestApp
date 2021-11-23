@@ -1,12 +1,4 @@
 import { useEffect, useState } from "react";
-import {
-  useNavigate,
-  Link,
-  useLocation,
-  generatePath,
-  createSearchParams,
-} from "react-router-dom";
-
 import { Grid } from "@mui/material";
 import { CountryItem } from "./CountryItem";
 import axios from "axios";

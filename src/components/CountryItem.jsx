@@ -1,6 +1,5 @@
 import { Card, Grid, Typography, Checkbox, Box } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { defineSelectedCountry } from "../store/actions/country.action";
+import Cookies from "js-cookie";
 import { makeStyles } from "@mui/styles";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Link } from "react-router-dom";
@@ -31,19 +30,19 @@ export const CountryItem = ({
   selectedCountries,
   setSelectedCountries,
 }) => {
-  const dispatch = useDispatch();
   const onSelectCountry = () => {
     if (!selectedCountries.includes(country)) {
       setSelectedCountries([...selectedCountries, country]);
     }
   };
-  dispatch(defineSelectedCountry(selectedCountries));
-
   const onDeleteCountry = (name) => {
     setSelectedCountries([
       ...selectedCountries.filter((c) => c.name.common !== name),
     ]);
   };
+  const countryCode = selectedCountries.map((c) => c.cca2);
+  const stringDataOfSelected = JSON.stringify(countryCode);
+  Cookies.set("selected", `${stringDataOfSelected}`);
   const classes = useStyles();
   return (
     <Grid item>

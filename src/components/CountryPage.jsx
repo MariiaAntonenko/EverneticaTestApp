@@ -1,61 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCountry } from "../store/actions/country.action";
 import { Container, Box, Typography, Card } from "@mui/material";
-import {
-  useParams,
-  useNavigate,
-  createSearchParams,
-  useLocation,
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import Loader from "react-loader-spinner";
+import Cookies from "js-cookie";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const useSelectCountry = (countryName) => {
   const dispatch = useDispatch();
-  const { country, isLoading, selectedCountries } = useSelector((s) => s);
+  const { country, isLoading } = useSelector((s) => s);
   useEffect(() => {
     dispatch(getCountry(countryName));
   }, [countryName]); // eslint-disable-line react-hooks/exhaustive-deps
-  return { country, isLoading, selectedCountries };
+  return { country, isLoading };
 };
 
 export const CountryPage = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [urlParams, setUrlParams] = useState("");
-
+  const selectedCountries = Cookies.get("selected");
   const { name } = useParams();
-  const { country, isLoading, selectedCountries } = useSelectCountry(name);
+  const { country, isLoading } = useSelectCountry(name);
   const checkRender = (obj, prop) => {
     if (typeof country[obj] === "undefined") {
       return null;
     }
     return country[obj][prop];
   };
-  const isSelect = selectedCountries
-    .map((c) => (typeof country !== "undefined" ? c.cca2 : null))
-    .includes(country.cca2);
-  const param = isSelect.toString();
-  console.log(location.search);
-
-  useEffect(() => {
-    navigate({
-      isSelect: `?${createSearchParams({
-        isSelect: `${param}`,
-      })}`,
-    });
-    setUrlParams(param);
-  }, []);
-  useEffect(() => {
-    const up = new URLSearchParams(location.param.substr(1));
-    const filtersFromParams = up.get("isSelect");
-
-    // if (filtersFromParams) {
-    //   setinputValue(filtersFromParams);
-    // }
-  }, []);
+  const isSelect = selectedCountries.includes(country.cca2);
 
   if (isLoading) {
     return (

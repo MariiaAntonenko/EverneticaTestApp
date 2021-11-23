@@ -3,7 +3,6 @@ import {
   GET_COUNTRY_START,
   GET_COUNTRY_SUCCESS,
   GET_COUNTRY_FAILURE,
-  DEFINE_SELECTED_COUNTRY,
 } from "../types";
 
 export const getCountry = (name) => {
@@ -14,7 +13,6 @@ export const getCountry = (name) => {
         `https://restcountries.com/v3.1/name/${name}`
       );
       dispatch(getCountrySuccess(response.data));
-      // console.log([...response.data]);
     } catch (error) {
       dispatch(getCountryFailure(error.message));
       throw error;
@@ -39,11 +37,5 @@ export const getCountryFailure = (error) => {
     payload: {
       error,
     },
-  };
-};
-export const defineSelectedCountry = (selectedCountries) => {
-  return {
-    type: DEFINE_SELECTED_COUNTRY,
-    payload: selectedCountries,
   };
 };
