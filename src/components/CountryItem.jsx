@@ -56,6 +56,7 @@ export const CountryItem = ({
           backgroundImage: `url(${country.flags.png})`,
           opacity: 0.9,
           boxShadow: "0px 3px 20px rgba(142, 142, 142, 0.5)",
+          cursor: "grab",
         }}
       >
         <Box
