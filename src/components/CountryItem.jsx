@@ -29,6 +29,10 @@ export const CountryItem = ({
   country,
   selectedCountries,
   setSelectedCountries,
+  onDragStartHandler,
+  onDragEndHandler,
+  onDragOvertHandler,
+  onDropHandler,
 }) => {
   const onSelectCountry = () => {
     if (!selectedCountries.includes(country)) {
@@ -47,6 +51,12 @@ export const CountryItem = ({
   return (
     <Grid item>
       <Card
+        draggable={true}
+        onDragStart={(e) => onDragStartHandler(e, country)}
+        onDragLeave={(e) => onDragEndHandler(e)}
+        onDragEnd={(e) => onDragEndHandler(e)}
+        onDragOver={(e) => onDragOvertHandler(e)}
+        onDrop={(e) => onDropHandler(e, country)}
         className={classes.card}
         sx={{
           width: 300,
@@ -100,7 +110,14 @@ export const CountryItem = ({
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             {country.cca2}
           </Typography>
-          <Box sx={{ display: "flex", alignSelf: "flex-start" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignSelf: "flex-start",
+              width: "1em",
+              height: "1em",
+            }}
+          >
             <Checkbox className={classes.ckeckBox} onChange={onSelectCountry} />
           </Box>
         </Box>
